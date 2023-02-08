@@ -36,6 +36,10 @@ DESC posts_sqlalchemy;
 
 SELECT * FROM posts_sqlalchemy;
 
+SELECT * FROM posts_sqlalchemy LEFT JOIN users ON posts_sqlalchemy.owner_id=users.id;
+
+SELECT users.id, COUNT(posts_sqlalchemy.id) FROM posts_sqlalchemy RIGHT JOIN users ON posts_sqlalchemy.owner_id=users.id GROUP BY users.id;
+
 DELETE FROM posts_sqlalchemy;
 
 ALTER TABLE posts_sqlalchemy 
