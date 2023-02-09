@@ -1,9 +1,11 @@
 DESC votes;
 
-INSERT INTO votes(user_id, post_id) values(3, 1); 
+INSERT INTO votes(user_id, post_id) values
+(8, 1),
+(3, 4); 
 
 SELECT * FROM votes;
 
-SELECT posts_sqlalchemy.*, COUNT(votes.post_id) FROM posts_sqlalchemy LEFT JOIN votes ON posts_sqlalchemy.id=votes.post_id GROUP BY posts_sqlalchemy.id;
+SELECT posts.*, COUNT(votes.post_id) FROM posts LEFT JOIN votes ON posts.id=votes.post_id GROUP BY posts.id;
 
 DELETE FROM votes WHERE user_id=3;

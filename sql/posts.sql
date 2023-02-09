@@ -1,4 +1,4 @@
-CREATE TABLE posts_sqlalchemy (
+CREATE TABLE posts (
   id INT AUTO_INCREMENT PRIMARY KEY,
   title VARCHAR(30) NOT NULL,
   content VARCHAR(150) NOT NULL,
@@ -8,7 +8,7 @@ CREATE TABLE posts_sqlalchemy (
   FOREIGN KEY(user_id) REFERENCES users(id) ON DELETE CASCADE 
 );
 
-CREATE TABLE posts_sqlalchemy (
+CREATE TABLE posts (
   id INT AUTO_INCREMENT PRIMARY KEY,
   title VARCHAR(30) NOT NULL,
   content VARCHAR(150) NOT NULL,
@@ -16,40 +16,40 @@ CREATE TABLE posts_sqlalchemy (
   created_at TIMESTAMP NOT NULL DEFAULT NOW()
 );
 
+DESC posts;
+
+DROP TABLE posts;
+
 SELECT * FROM posts;
 
-INSERT INTO posts(title, content) VALUES
-  ("first post", "interesting post"),
-  ("second post", "yadayadayada");
-
-INSERT INTO posts_sqlalchemy(title, content, owner_id) VALUES
-  ("first post", "interesting post", 3),
-  ("second post", "yadayadayada", 3);
+INSERT INTO posts(title, content, owner_id) VALUES
+  ("first post ", "interesting post", 3),
+  ("second post", "yadayadayada", 3),
+  ("third post", "best post", 3),
+  ("second user", "my post", 7),
+  ("second user post 2", "new post", 7),
+  ("third user post 1", "first post", 8);
 
 DELETE FROM posts WHERE id IN (6, 7, 8)
 
-DELETE FROM posts_sqlalchemy WHERE id = 4;
+DELETE FROM posts WHERE id = 4;
 
-DROP TABLE posts_sqlalchemy;
+DROP TABLE posts;
 
-DESC posts_sqlalchemy;
+SELECT * FROM posts LEFT JOIN users ON posts.owner_id=users.id;
 
-SELECT * FROM posts_sqlalchemy;
+SELECT users.id, COUNT(posts.id) FROM posts RIGHT JOIN users ON posts.owner_id=users.id GROUP BY users.id;
 
-SELECT * FROM posts_sqlalchemy LEFT JOIN users ON posts_sqlalchemy.owner_id=users.id;
+DELETE FROM posts;
 
-SELECT users.id, COUNT(posts_sqlalchemy.id) FROM posts_sqlalchemy RIGHT JOIN users ON posts_sqlalchemy.owner_id=users.id GROUP BY users.id;
-
-DELETE FROM posts_sqlalchemy;
-
-ALTER TABLE posts_sqlalchemy 
+ALTER TABLE posts 
 ADD user_id INT NOT NULL;
 
-ALTER TABLE posts_sqlalchemy DROP COLUMN user_id;
+ALTER TABLE posts DROP COLUMN user_id;
 
-ALTER TABLE posts_sqlalchemy
+ALTER TABLE posts
 ADD FOREIGN KEY(user_id) REFERENCES users(id) ;
 
-ALTER TABLE posts_sqlalchemy
+ALTER TABLE posts
 DROP FOREIGN KEY user_id;
 

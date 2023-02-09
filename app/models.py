@@ -8,7 +8,7 @@ from sqlalchemy.ext.declarative import declarative_base
 Base = declarative_base()
 
 class Post(Base):
-  __tablename__ = 'posts_sqlalchemy'
+  __tablename__ = 'posts'
 
   id = Column(Integer, primary_key=True, nullable=False)
   title = Column(String(30), nullable=False)
