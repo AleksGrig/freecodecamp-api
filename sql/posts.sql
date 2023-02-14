@@ -36,6 +36,8 @@ DELETE FROM posts WHERE id = 4;
 
 DROP TABLE posts;
 
+DROP COLUMN content FROM posts;
+
 SELECT * FROM posts LEFT JOIN users ON posts.owner_id=users.id;
 
 SELECT users.id, COUNT(posts.id) FROM posts RIGHT JOIN users ON posts.owner_id=users.id GROUP BY users.id;
