@@ -7,6 +7,7 @@ User=wightwalker
 Group=wightwalker
 WorkingDirectory=/home/wightwalker/Downloads/freecodecamp-api/
 Environment="PATH=/home/wightwalker/Downloads/freecodecamp-api/venv/bin"
+EnvironmentFile=/home/wightwalker/.env
 ExecStart=/home/wightwalker/Downloads/freecodecamp-api/venv/bin/gunicorn -w 2 -k uvicorn.workers.UvicornWorker app.main:app --bind 0.0.0.0:8000
 
 [Install]
