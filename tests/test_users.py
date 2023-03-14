@@ -1,21 +1,6 @@
 import requests
-import pytest
 from jose import jwt 
 from app import schemas, config
-from .database import client, session
-
-
-@pytest.fixture
-def test_user(client):
-    userdata = {
-        "email": "hello123@gmail.com",
-        "password": "hello123"
-    }
-    res = client.post("http://192.168.1.65/users/", json=userdata)
-    assert res.status_code == 201
-    new_user = res.json()
-    new_user['password'] = userdata['password']
-    return new_user
 
 
 def test_root(client):
