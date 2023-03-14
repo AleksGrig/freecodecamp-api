@@ -2,7 +2,7 @@ import pytest
 from fastapi.testclient import TestClient
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
-from app import schemas
+from app import schemas, models
 from app.config import settings
 from app.main import app
 from app.database import get_db
@@ -42,6 +42,7 @@ def client(session):
 
     # run our code after test finishes
 
+
 @pytest.fixture
 def test_user(client):
     userdata = {
@@ -53,6 +54,7 @@ def test_user(client):
     new_user = res.json()
     new_user['password'] = userdata['password']
     return new_user
+
 
 @pytest.fixture
 def token(test_user):
@@ -66,3 +68,30 @@ def authorized_client(client, token):
         "Authorization": f"Bearer {token}"
     }
     return client
+
+
+@pytest.fixture
+def test_posts(test_user, session):
+    posts_data = [
+        {
+            "title": "first_title",
+            "content": "first_content",
+            "owner_id": test_user['id']
+        },
+        {
+            "title": "2nd_title",
+            "content": "2nd_content",
+            "owner_id": test_user['id']
+        },
+        {
+            "title": "3rd_title",
+            "content": "3rd_content",
+            "owner_id": test_user['id']
+        }
+    ]
+    posts = [models.Post(**post_data) for post_data in posts_data]
+    session.add_all(posts)
+    session.commit()
+
+    posts = session.query(models.Post).all()
+    return posts
