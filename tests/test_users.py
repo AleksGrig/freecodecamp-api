@@ -1,5 +1,6 @@
 import requests
-from jose import jwt 
+import pytest
+from jose import jwt
 from app import schemas, config
 
 
@@ -31,8 +32,24 @@ def test_login_user(client, test_user):
         "password": test_user['password']
     })
     login_res = schemas.Token(**res.json())
-    payload = jwt.decode(login_res.access_token, config.settings.secret_key, algorithms=[config.settings.algorithm])
+    payload = jwt.decode(login_res.access_token, config.settings.secret_key, algorithms=[
+                         config.settings.algorithm])
     id = payload.get("user_id")
     assert id == test_user['id']
     assert login_res.token_type == 'bearer'
     assert res.status_code == 200
+
+
+@pytest.mark.parametrize("email, password, status_code", [
+    ("wrongmail@gmail.com", "hello123", 403),
+    ("hello123@gmail.com", "wrong_password", 403),
+    ("wrongmail@gmail.com", "wrong_password", 403),
+    (None, "hello123", 422),
+    ("hello123@gmail.com", None, 422)
+])
+def test_incorrect_credentials(test_user, client, email, password, status_code):
+    res = client.post("/login", data={
+        "username": email,
+        "password": password
+    })
+    assert res.status_code == status_code
