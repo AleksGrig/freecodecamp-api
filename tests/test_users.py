@@ -47,7 +47,7 @@ def test_login_user(client, test_user):
     (None, "hello123", 422),
     ("hello123@gmail.com", None, 422)
 ])
-def test_incorrect_credentials(test_user, client, email, password, status_code):
+def test_incorrect_credentials(client, email, password, status_code):
     res = client.post("/login", data={
         "username": email,
         "password": password
