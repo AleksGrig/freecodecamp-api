@@ -23,3 +23,11 @@ def test_vote_twice_post(authorized_client, test_posts, test_vote):
         "dir": 1
     })
     assert res.status_code == 409
+
+
+def test_delete_vote(authorized_client, test_posts, test_vote):
+    res = authorized_client.post("http://192.168.1.65/vote/", json={
+        "post_id": test_posts[3].id,
+        "dir": 0
+    })
+    assert res.status_code == 201
