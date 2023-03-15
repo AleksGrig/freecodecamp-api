@@ -31,3 +31,11 @@ def test_delete_vote(authorized_client, test_posts, test_vote):
         "dir": 0
     })
     assert res.status_code == 201
+
+
+def test_delete_vote_not_exist(authorized_client, test_posts):
+    res = authorized_client.post("http://192.168.1.65/vote/", json={
+        "post_id": test_posts[3].id,
+        "dir": 0
+    })
+    assert res.status_code == 404
