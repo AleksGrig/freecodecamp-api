@@ -88,3 +88,8 @@ def test_delete_post_success(authorized_client, test_user, test_posts):
 def test_delete_post_not_exist(authorized_client, test_user, test_posts):
     res = authorized_client.delete("http://192.168.1.65/posts/666")
     assert res.status_code == 404
+
+
+def test_delete_other_user_post(authorized_client, test_user, test_posts):
+    res = authorized_client.delete(f"http://192.168.1.65/posts/{test_posts[3].id}")
+    assert res.status_code == 403
