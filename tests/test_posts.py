@@ -124,5 +124,15 @@ def test_unauthorized_user_update_post(client, test_user, test_posts):
         "content": "updated content",
         "id": test_posts[0].id
     }
-    res = client.put(f"http://192.168.1.65/posts/{test_posts[0].id}")
+    res = client.put(f"http://192.168.1.65/posts/{test_posts[0].id}", json=data)
     assert res.status_code == 401
+
+
+def test_update_post_not_exist(authorized_client, test_user, test_posts):
+    data = {
+        "title": "updated title",
+        "content": "updated content",
+        "id": test_posts[0].id
+    }
+    res = authorized_client.put("http://192.168.1.65/posts/666", json=data)
+    assert res.status_code == 404
