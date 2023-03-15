@@ -106,3 +106,13 @@ def test_update_post(authorized_client, test_user, test_posts):
     assert res.status_code == 200
     assert updated_post.title == data["title"]
     assert updated_post.content == data["content"]
+
+
+def test_update_other_user_post(authorized_client, test_user, test_user2, test_posts):
+    data = {
+        "title": "updated title",
+        "content": "updated content",
+        "id": test_posts[3].id
+    }
+    res = authorized_client.put(f"http://192.168.1.65/posts/{test_posts[3].id}", json=data)
+    assert res.status_code == 403
