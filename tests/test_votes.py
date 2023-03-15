@@ -47,3 +47,11 @@ def test_vote_post_not_exist(authorized_client, test_posts):
         "dir": 0
     })
     assert res.status_code == 404
+
+
+def test_vote_unauthorized_user(client, test_posts):
+    res = client.post("http://192.168.1.65/vote/", json={
+        "post_id": test_posts[3].id,
+        "dir": 0
+    })
+    assert res.status_code == 401
