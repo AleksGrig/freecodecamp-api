@@ -1,4 +1,4 @@
-from typing import List
+import pytest
 from app import schemas
 
 
@@ -27,7 +27,27 @@ def test_get_one_post_not_exist(authorized_client, test_posts):
 
 
 def test_get_one_post(authorized_client, test_posts):
-    res = authorized_client.get(f"http://192.168.1.65/posts/{test_posts[0].id}")
+    res = authorized_client.get(
+        f"http://192.168.1.65/posts/{test_posts[0].id}")
     post = schemas.PostOut(**res.json())
     assert res.status_code == 200
     assert post.Post.id == test_posts[0].id
+
+
+@pytest.mark.parametrize("title, content, published", [
+    ("awesome new title1", "awesome new content1", True),
+    ("awesome new title2", "awesome new content2", True),
+    ("awesome new title3", "awesome new content3", False),
+])
+def test_create_post(authorized_client, test_user, test_posts, title, content, published):
+    res = authorized_client.post("http://192.168.1.65/posts/", json={
+        "title": title,
+        "content": content,
+        "published": published
+    })
+    created_post = schemas.Post(**res.json())
+    assert res.status_code == 201
+    assert created_post.title == title
+    assert created_post.content == content
+    assert created_post.published == published
+    assert created_post.owner.id == test_user['id']
