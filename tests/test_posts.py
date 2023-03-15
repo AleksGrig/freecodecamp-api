@@ -8,3 +8,8 @@ def test_get_all_posts(authorized_client, test_posts):
 
     assert res.status_code == 200
     assert len(posts) == len(test_posts)
+
+
+def test_unauthorized_user_get_all_posts(client, test_posts):
+    res = client.get("http://192.168.1.65/posts/")
+    assert res.status_code == 401
