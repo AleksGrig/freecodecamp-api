@@ -75,6 +75,11 @@ def test_unauthorized_create_post(client, test_user, test_posts):
     assert res.status_code == 401
 
 
-def unauthorized_user_delete_post(client, test_user, test_posts):
+def test_unauthorized_user_delete_post(client, test_user, test_posts):
     res = client.delete(f"http://192.168.1.65/posts/{test_posts[0].id}")
     assert res.status_code == 401
+
+
+def test_delete_post_success(authorized_client, test_user, test_posts):
+    res = authorized_client.delete(f"http://192.168.1.65/posts/{test_posts[0].id}")
+    assert res.status_code == 204
