@@ -6,7 +6,7 @@ from app import schemas, config
 
 def test_root(client):
     # res = requests.get("http://192.168.1.65/")
-    res = client.get("http://192.168.1.65/")
+    res = client.get("/")
     assert res.json().get('message') == 'my fastapi'
     assert res.status_code == 200
 
@@ -16,7 +16,7 @@ def test_create_user(client):
     #     "email": "hello123@gmail.com",
     #     "password": "hello123"
     # })
-    res = client.post("http://192.168.1.65/users/", json={
+    res = client.post("/users/", json={
         "email": "hello123@gmail.com",
         "password": "hello123"
     })

@@ -11,8 +11,9 @@ from app.oauth2 import create_access_token
 
 
 SQLALCHEMY_DATABASE_URL = 'mysql://root:1234@192.168.1.65:3306/fastapi_test'
+SQLALCHEMY_DATABASE_URL_LOCALHOST = 'mysql://root:1234@localhost:3306/fastapi_test'
 # SQLALCHEMY_DATABASE_URL = f'mysql://{settings.database_username}:{settings.database_password}@{settings.database_hostname}:{settings.database_port}/{settings.database_name}_test'
-engine = create_engine(SQLALCHEMY_DATABASE_URL)
+engine = create_engine(SQLALCHEMY_DATABASE_URL_LOCALHOST)
 TestingSessionLocal = sessionmaker(
     autocommit=False, autoflush=False, bind=engine)
 
@@ -49,7 +50,7 @@ def test_user(client):
         "email": "hello123@gmail.com",
         "password": "hello123"
     }
-    res = client.post("http://192.168.1.65/users/", json=userdata)
+    res = client.post("/users/", json=userdata)
     assert res.status_code == 201
     new_user = res.json()
     new_user['password'] = userdata['password']
@@ -62,7 +63,7 @@ def test_user2(client):
         "email": "hello234@gmail.com",
         "password": "hello234"
     }
-    res = client.post("http://192.168.1.65/users/", json=userdata)
+    res = client.post("/users/", json=userdata)
     assert res.status_code == 201
     new_user = res.json()
     new_user['password'] = userdata['password']

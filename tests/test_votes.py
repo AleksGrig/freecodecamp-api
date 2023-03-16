@@ -10,7 +10,7 @@ def test_vote(test_posts, session, test_user):
 
 
 def test_vote_on_post(authorized_client, test_posts):
-    res = authorized_client.post("http://192.168.1.65/vote/", json={
+    res = authorized_client.post("/vote/", json={
         "post_id": test_posts[0].id,
         "dir": 1
     })
@@ -18,7 +18,7 @@ def test_vote_on_post(authorized_client, test_posts):
 
 
 def test_vote_twice_post(authorized_client, test_posts, test_vote):
-    res = authorized_client.post("http://192.168.1.65/vote/", json={
+    res = authorized_client.post("/vote/", json={
         "post_id": test_posts[3].id,
         "dir": 1
     })
@@ -26,7 +26,7 @@ def test_vote_twice_post(authorized_client, test_posts, test_vote):
 
 
 def test_delete_vote(authorized_client, test_posts, test_vote):
-    res = authorized_client.post("http://192.168.1.65/vote/", json={
+    res = authorized_client.post("/vote/", json={
         "post_id": test_posts[3].id,
         "dir": 0
     })
@@ -34,7 +34,7 @@ def test_delete_vote(authorized_client, test_posts, test_vote):
 
 
 def test_delete_vote_not_exist(authorized_client, test_posts):
-    res = authorized_client.post("http://192.168.1.65/vote/", json={
+    res = authorized_client.post("/vote/", json={
         "post_id": test_posts[3].id,
         "dir": 0
     })
@@ -42,7 +42,7 @@ def test_delete_vote_not_exist(authorized_client, test_posts):
 
 
 def test_vote_post_not_exist(authorized_client, test_posts):
-    res = authorized_client.post("http://192.168.1.65/vote/", json={
+    res = authorized_client.post("/vote/", json={
         "post_id": 666,
         "dir": 0
     })
@@ -50,7 +50,7 @@ def test_vote_post_not_exist(authorized_client, test_posts):
 
 
 def test_vote_unauthorized_user(client, test_posts):
-    res = client.post("http://192.168.1.65/vote/", json={
+    res = client.post("/vote/", json={
         "post_id": test_posts[3].id,
         "dir": 0
     })
