@@ -9,15 +9,17 @@ on:
 
 jobs:
     job1:
+        environment:
+            name: testing
         env:
-            DATABASE_HOSTNAME: localhost
-            DATABASE_PORT: 3306
-            DATABASE_PASSWORD: 1234
-            DATABASE_NAME: fastapi
-            DATABASE_USERNAME: root
-            SECRET_KEY: da0bb4ee6d2db1c5f03a094b36c60a943a20b61bb048f1508a1f174cecd3932b
-            ALGORITHM: HS256
-            ACCESS_TOKEN_EXPIRE_MINUTES: 1440
+            DATABASE_HOSTNAME: ${{secrets.DATABASE_HOSTNAME}}
+            DATABASE_PORT: ${{secrets.DATABASE_PORT}}
+            DATABASE_PASSWORD: ${{secrets.DATABASE_PASSWORD}}
+            DATABASE_NAME: ${{secrets.DATABASE_NAME}}
+            DATABASE_USERNAME: ${{secrets.DATABASE_USERNAME}}
+            SECRET_KEY: ${{secrets.SECRET_KEY}}
+            ALGORITHM: ${{secrets.ALGORITHM}}
+            ACCESS_TOKEN_EXPIRE_MINUTES: ${{secrets.ACCESS_TOKEN_EXPIRE_MINUTES}}
         runs-on: ubuntu-latest
         steps:
             - name: pulling git repo
