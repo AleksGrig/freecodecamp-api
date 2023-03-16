@@ -34,6 +34,8 @@ jobs:
 
         runs-on: ubuntu-latest
         steps:
+            - name: start mysql
+              run: sudo systemctl start mysql
             - name: pulling git repo
               uses: actions/checkout@v2
             - name: install python 3.10
